@@ -91,14 +91,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   form.addEventListener("submit", async (e) => {
-    clearErrors(); // clear old errors
+    e.preventDefault();
+    clearErrors();
+  
     const identifier = form.identifier.value.trim();
     const password = form.password.value;
-
-    if (!identifier) { e.preventDefault(); showError(identifierError, "Please enter your email or username."); return; }
-    if (!password) { e.preventDefault(); showError(passwordError, "Please enter your password."); return; }
-
-    // Let form submit normally; Worker will redirect or return error page
+  
+    try {
+      const res = await fetch("https://luaware.joex-360hz.workers.dev/api/login", {
+        method: "POST",
+        body: new URLSearchParams({ identifier, password }),
+      });
+  
+      const data = await res.json();
+  
+      if (data.success) {
+        localStorage.setItem("user", JSON.stringify({ username: data.username, email: data.email }));
+        window.location.href = "/Visuals/Dashboard.html";
+      } else {
+        showError(passwordError, data.error);
+      }
+  
+    } catch (err) {
+      showError(passwordError, "Server error");
+      console.error(err);
+    }
   });
 });
 </script>
