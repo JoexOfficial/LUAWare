@@ -128,33 +128,21 @@ function getCookie(name) {
   return null;
 }
 
-// ---------------- CHECK LOGIN ----------------
-async function checkLogin() {
-  const session = getCookie('session');
-  if (!session) {
-    window.location.href = "https://joexofficial.github.io/LUAWare/Public/Login.html";
-    return;
-  }
-
-  try {
-    // fetch user info from Worker KV
-    const res = await fetch(`https://luaware.joex-360hz.workers.dev/api/getuser?username=${session}`);
-    if (!res.ok) throw new Error('Failed to get user');
-
-    const data = await res.json();
-    document.getElementById('username').innerText = data.username;
-    document.getElementById('email').innerText = data.email;
-  } catch (err) {
-    console.error(err);
-    window.location.href = "https://joexofficial.github.io/LUAWare/Public/Login.html";
-  }
+// Check login
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user) {
+  window.location.href = "/Visuals/Login.html";
+} else {
+  document.getElementById('username').innerText = user.username;
+  document.getElementById('email').innerText = user.email;
 }
 
-// ---------------- LOGOUT ----------------
+// Logout
 document.querySelector('.logout').addEventListener('click', () => {
-  document.cookie = 'session=; Path=/; Max-Age=0';
+  localStorage.removeItem('user');
+  window.location.href = "/Visuals/Login.html";
 });
-checkLogin();
+
 </script>
 
 </body>
