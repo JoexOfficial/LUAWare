@@ -85,7 +85,7 @@ h1 { font-size: 36px; margin-bottom: 8px; }
 
     <div class="settings">
       <a href="#">Settings</a>
-      <a href="/Visuals/Login.html" class="logout">Logout</a>
+      <a href="https://joexofficial.github.io/LUAWare/Public/Login.html" class="logout">Logout</a>
     </div>
   </div>
 </div>
@@ -132,7 +132,7 @@ function getCookie(name) {
 async function checkLogin() {
   const session = getCookie('session');
   if (!session) {
-    window.location.href = "/Visuals/Login.html";
+    window.location.href = "https://joexofficial.github.io/LUAWare/Public/Login.html";
     return;
   }
 
@@ -146,7 +146,7 @@ async function checkLogin() {
     document.getElementById('email').innerText = data.email;
   } catch (err) {
     console.error(err);
-    window.location.href = "/Visuals/Login.html";
+    window.location.href = "https://joexofficial.github.io/LUAWare/Public/Login.html";
   }
 }
 
